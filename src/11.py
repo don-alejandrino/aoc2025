@@ -51,6 +51,10 @@ def get_num_paths_to_terminal_nodes(
     target_nodes: tuple[str, ...] = (),
     target_nodes_reached: tuple[str, ...] = (),
 ) -> int:
+    """
+    The graph defined by `circuit_dict` is acyclic, hence we can't have any infinite
+    loops and don't need to keep track of visited nodes (except the target ones).
+    """
     if start_node == end_node:
         return 1 if set(target_nodes_reached) == set(target_nodes) else 0
     if start_node in target_nodes:
