@@ -27,12 +27,14 @@ def parse_input(text: str) -> np.ndarray:
     for i, row in enumerate(rows):
         for j, pos in enumerate(row):
             if pos == "@":
-                grid[i + 1, j + 1] = True
+                grid[i + 1, j + 1] = 1
 
     return grid
 
 
-def get_num_accessible_paper_rolls_in_one_step(grid: np.ndarray) -> tuple[int, np.ndarray]:
+def get_num_accessible_paper_rolls_in_one_step(
+    grid: np.ndarray,
+) -> tuple[int, np.ndarray]:
     new_grid = grid.copy()
     num_accessible_paper_rolls = 0
     n_rows, n_cols = grid.shape
@@ -41,9 +43,14 @@ def get_num_accessible_paper_rolls_in_one_step(grid: np.ndarray) -> tuple[int, n
             if not grid[i, j]:
                 continue
             num_neighbors = (
-                grid[i - 1, j - 1] + grid[i - 1, j] + grid[i - 1, j + 1] +
-                grid[i, j - 1] + grid[i, j + 1] +
-                grid[i + 1, j - 1] + grid[i + 1, j] + grid[i + 1, j + 1]
+                grid[i - 1, j - 1]
+                + grid[i - 1, j]
+                + grid[i - 1, j + 1]
+                + grid[i, j - 1]
+                + grid[i, j + 1]
+                + grid[i + 1, j - 1]
+                + grid[i + 1, j]
+                + grid[i + 1, j + 1]
             )
             if num_neighbors < 4:
                 num_accessible_paper_rolls += 1
@@ -56,7 +63,9 @@ def get_overall_num_accessible_paper_rolls(grid: np.ndarray) -> int:
     overall_num_accessible_paper_rolls = 0
     num_accessible_paper_rolls = -1
     while num_accessible_paper_rolls != 0:
-        num_accessible_paper_rolls, new_grid = get_num_accessible_paper_rolls_in_one_step(grid)
+        num_accessible_paper_rolls, new_grid = (
+            get_num_accessible_paper_rolls_in_one_step(grid)
+        )
         overall_num_accessible_paper_rolls += num_accessible_paper_rolls
         grid = new_grid
 
